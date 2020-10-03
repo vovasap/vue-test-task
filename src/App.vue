@@ -1,27 +1,18 @@
 <template>
   <div id="app">
     <div class="field"></div>
-
     <div class="data-container">
-      <form>
-        <input type="text" placeholder="name" />
-        <input type="text" placeholder="color" />
-        <input type="text" placeholder="figure" />
-        <div class="buttons">
-          <button>Add</button>
-          <button>Delete</button>
-        </div>
-      </form>
-
+      <Form />
       <div class="table">table</div>
     </div>
   </div>
 </template>
 
 <script>
+import Form from '@/components/Form'
 export default {
   name: 'App',
-  components: {},
+  components: { Form },
 }
 </script>
 
@@ -45,23 +36,6 @@ body {
   border: 1px solid #555;
   background: #eee;
 }
-form {
-  margin: 0 15px 15px;
-  display: flex;
-  flex-direction: column; /* max-width: 300px; */
-}
-input {
-  margin-bottom: 10px;
-}
-.buttons {
-  display: flex;
-  justify-content: space-evenly;
-}
-button {
-  width: 120px;
-  margin: 5px;
-}
-
 .table {
   margin: 0 15px 15px;
 }
