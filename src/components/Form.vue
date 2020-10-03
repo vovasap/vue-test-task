@@ -7,10 +7,10 @@
         {{ color }}
       </option>
     </select>
-    <select v-model="currentFigure">
-      <option disabled value="">Select a figure</option>
-      <option v-for="(figure, index) in figures" :key="index">
-        {{ figure }}
+    <select v-model="currentShape">
+      <option disabled value="">Select a shape</option>
+      <option v-for="(shape, index) in shapes" :key="index">
+        {{ shape }}
       </option>
     </select>
     <div class="buttons">
@@ -26,7 +26,7 @@ export default {
     return {
       currentName: '',
       currentColor: '',
-      currentFigure: '',
+      currentShape: '',
       colors: [
         'Black',
         'Gray',
@@ -45,7 +45,7 @@ export default {
         'Blue',
         'Navy',
       ],
-      figures: ['Square', 'Circle', 'Triangle', 'Hexagedron'],
+      shapes: ['Square', 'Circle', 'Triangle', 'Hexagedron'],
     }
   },
 }

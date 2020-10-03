@@ -3,20 +3,20 @@
     <div class="field"></div>
     <div class="data-container">
       <Form />
-      <FiguresList :figures="figures" />
+      <ShapesList :shapes="shapes" />
     </div>
   </div>
 </template>
 
 <script>
 import Form from '@/components/Form'
-import FiguresList from '@/components/FiguresList'
+import ShapesList from '@/components/ShapesList'
 export default {
   name: 'App',
-  components: { Form, FiguresList },
+  components: { Form, ShapesList },
   data() {
     return {
-      // figures: [1, 2, 3],
+      // shapes: [1, 2, 3],
     }
   },
 }

@@ -1,14 +1,14 @@
 <template>
   <ul class="table">
-    <li v-for="(figure, index) in figures" :key="index">
-      {{ figure }}
+    <li v-for="(shape, index) in shapes" :key="index">
+      {{ shape }}
     </li>
   </ul>
 </template>
 
 <script>
 export default {
-  // props: ['figures'],
+  // props: ['shapes'],
 }
 </script>
 
