@@ -2,7 +2,7 @@
   <div id="app">
     <div class="field"></div>
     <div class="data-container">
-      <Form />
+      <Form @addShape="addShape" />
       <ShapesList :shapes="shapes" />
     </div>
   </div>
@@ -16,8 +16,13 @@ export default {
   components: { Form, ShapesList },
   data() {
     return {
-      // shapes: [1, 2, 3],
+      shapes: [],
     }
+  },
+  methods: {
+    addShape(shape) {
+      this.shapes.push(shape)
+    },
   },
 }
 </script>

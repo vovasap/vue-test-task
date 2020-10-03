@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="createShape">
     <input type="text" v-model="currentName" placeholder="name" />
     <select v-model="currentColor">
       <option disabled value="">Select a color</option>
@@ -47,6 +47,15 @@ export default {
       ],
       shapes: ['Square', 'Circle', 'Triangle', 'Hexagedron'],
     }
+  },
+  methods: {
+    createShape() {
+      this.$emit('addShape', {
+        name: this.currentName,
+        color: this.currentColor,
+        shape: this.currentShape,
+      })
+    },
   },
 }
 </script>
