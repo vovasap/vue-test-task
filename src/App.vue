@@ -2,7 +2,7 @@
   <div id="app">
     <div class="field"></div>
     <div class="data-container">
-      <Form @addFigure="addFigure" />
+      <Form @addFigure="addFigure" :figures="figures" />
       <FiguresList :figures="figures" />
     </div>
   </div>
