@@ -2,26 +2,26 @@
   <div id="app">
     <div class="field"></div>
     <div class="data-container">
-      <Form @addShape="addShape" />
-      <ShapesList :shapes="shapes" />
+      <Form @addFigure="addFigure" />
+      <FiguresList :figures="figures" />
     </div>
   </div>
 </template>
 
 <script>
 import Form from '@/components/Form'
-import ShapesList from '@/components/ShapesList'
+import FiguresList from '@/components/FiguresList'
 export default {
   name: 'App',
-  components: { Form, ShapesList },
+  components: { Form, FiguresList },
   data() {
     return {
-      shapes: [],
+      figures: [],
     }
   },
   methods: {
-    addShape(shape) {
-      this.shapes.push(shape)
+    addFigure(figure) {
+      this.figures.push(figure)
     },
   },
 }

@@ -5,17 +5,17 @@
       <th>Color</th>
       <th>Shape</th>
     </tr>
-    <tr v-for="(shape, index) in shapes" :key="index">
-      <td>{{ shape.name }}</td>
-      <td>{{ shape.color }}</td>
-      <td>{{ shape.shape }}</td>
+    <tr v-for="(figure, index) in figures" :key="index">
+      <td>{{ figure.name }}</td>
+      <td>{{ figure.color }}</td>
+      <td>{{ figure.shape }}</td>
     </tr>
   </table>
 </template>
 
 <script>
 export default {
-  props: ['shapes'],
+  props: ['figures'],
 }
 </script>
 

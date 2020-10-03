@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     createShape() {
-      this.$emit('addShape', {
+      this.$emit('addFigure', {
         name: this.currentName,
         color: this.currentColor,
         shape: this.currentShape,
