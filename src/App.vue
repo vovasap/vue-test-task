@@ -3,16 +3,22 @@
     <div class="field"></div>
     <div class="data-container">
       <Form />
-      <div class="table">table</div>
+      <FiguresList :figures="figures" />
     </div>
   </div>
 </template>
 
 <script>
 import Form from '@/components/Form'
+import FiguresList from '@/components/FiguresList'
 export default {
   name: 'App',
-  components: { Form },
+  components: { Form, FiguresList },
+  data() {
+    return {
+      // figures: [1, 2, 3],
+    }
+  },
 }
 </script>
 
@@ -35,8 +41,5 @@ body {
 
   border: 1px solid #555;
   background: #eee;
-}
-.table {
-  margin: 0 15px 15px;
 }
 </style>
