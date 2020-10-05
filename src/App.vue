@@ -1,6 +1,13 @@
 <template>
   <div id="app">
-    <div class="field"></div>
+    <div class="field">
+      <Shape
+        v-for="(figure, index) of figures"
+        :key="index"
+        :shape="figure.shape"
+        :color="figure.color"
+      ></Shape>
+    </div>
     <div class="data-container">
       <Form @addFigure="addFigure" :figures="figures" />
       <FiguresList :figures="figures" />
@@ -11,9 +18,10 @@
 <script>
 import Form from '@/components/Form'
 import FiguresList from '@/components/FiguresList'
+import Shape from '@/components/Shape'
 export default {
   name: 'App',
-  components: { Form, FiguresList },
+  components: { Form, FiguresList, Shape },
   data() {
     return {
       figures: [],
