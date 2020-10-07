@@ -1,12 +1,7 @@
 <template>
   <div id="app">
     <div class="field">
-      <Shape
-        v-for="(figure, index) of figures"
-        :key="index"
-        :shape="figure.shape"
-        :color="figure.color"
-      ></Shape>
+      <Shape v-for="(figure, index) of figures" :key="index" :figure="figure"></Shape>
     </div>
     <div class="data-container">
       <Form @addFigure="addFigure" :figures="figures" />
@@ -49,6 +44,7 @@ body {
   margin: 10px;
 }
 .field {
+  position: relative;
   width: 500px;
   height: 500px;
 

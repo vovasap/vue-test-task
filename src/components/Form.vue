@@ -6,19 +6,13 @@
       v-model="currentName"
       placeholder="name"
     />
-    <select
-      :class="{ 'form-warning': errorKinds.color }"
-      v-model="currentColor"
-    >
+    <select :class="{ 'form-warning': errorKinds.color }" v-model="currentColor">
       <option disabled value="">Select a color</option>
       <option v-for="(color, index) in colors" :key="index">
         {{ color }}
       </option>
     </select>
-    <select
-      :class="{ 'form-warning': errorKinds.shape }"
-      v-model="currentShape"
-    >
+    <select :class="{ 'form-warning': errorKinds.shape }" v-model="currentShape">
       <option disabled value="">Select a shape</option>
       <option v-for="(shape, index) in shapes" :key="index">
         {{ shape }}
@@ -78,6 +72,9 @@ export default {
         name: this.currentName,
         color: this.currentColor,
         shape: this.currentShape,
+        position: 'static',
+        x: 0,
+        y: 0,
       })
       this.colors = this.colors.filter((color) => color !== this.currentColor)
       this.currentName = ''
@@ -90,9 +87,7 @@ export default {
       this.errorKinds = {}
       if (
         !this.currentName.trim() ||
-        this.figures.findIndex(
-          (figure) => figure.name == this.currentName.trim()
-        ) >= 0
+        this.figures.findIndex((figure) => figure.name == this.currentName.trim()) >= 0
       ) {
         this.errors.push('Pick another name')
         this.errorKinds.name = true

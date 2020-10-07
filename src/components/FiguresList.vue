@@ -4,11 +4,15 @@
       <th>Name</th>
       <th>Color</th>
       <th>Shape</th>
+      <th>X</th>
+      <th>Y</th>
     </tr>
     <tr v-for="(figure, index) in figures" :key="index">
       <td>{{ figure.name }}</td>
       <td>{{ figure.color }}</td>
       <td>{{ figure.shape }}</td>
+      <td>{{ figure.x }}</td>
+      <td>{{ figure.y }}</td>
     </tr>
   </table>
 </template>
