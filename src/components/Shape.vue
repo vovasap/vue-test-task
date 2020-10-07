@@ -12,10 +12,7 @@
     @mousedown="grabFigure"
   >
     <g :fill="figure.color">
-      <ShapeSquare v-if="figure.shape == 'Square'" />
-      <ShapeCircle v-else-if="figure.shape == 'Circle'" />
-      <ShapeTriangle v-else-if="figure.shape == 'Triangle'" />
-      <ShapeHexagedron v-else />
+      <component :is="currentFigure"></component>
     </g>
   </svg>
 </template>
@@ -45,6 +42,11 @@ export default {
       this.$el.ondragstart = () => false
     }
   },
+  computed: {
+    currentFigure() {
+      return `Shape${this.figure.shape}`
+    },
+  },
   methods: {
     grabFigure(e) {
       this.dragging = true
@@ -64,16 +66,12 @@ export default {
     },
     dragFigure(e) {
       if (this.dragging) {
-        this.figure.x = this.restrictToBounds(
-          this.figure.x + e.pageX - this.oldLeft,
-          0,
-          this.maxW - this.minW - 52
-        )
-        this.figure.y = this.restrictToBounds(
-          this.figure.y + e.pageY - this.oldTop,
-          0,
-          this.maxH - this.minH - 52
-        )
+        const newFigurePositionX = this.figure.x + e.pageX - this.oldLeft
+        const newFigurePositionY = this.figure.y + e.pageY - this.oldTop
+        const maxLeftBound = this.maxW - this.minW - 52
+        const maxBottomBound = this.maxH - this.minH - 52
+        this.figure.x = this.restrictToBounds(newFigurePositionX, 0, maxLeftBound)
+        this.figure.y = this.restrictToBounds(newFigurePositionY, 0, maxBottomBound)
       }
       this.oldLeft = e.pageX
       this.oldTop = e.pageY
