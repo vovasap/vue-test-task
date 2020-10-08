@@ -11,7 +11,17 @@
     }"
     @mousedown="grabFigure"
   >
-    <g :fill="figure.color">
+    <linearGradient id="active">
+      <stop offset="20%" stop-color="#000" />
+      <stop offset="20%" stop-color="#fff" />
+      <stop offset="40%" stop-color="#fff" />
+      <stop offset="40%" stop-color="#000" />
+      <stop offset="60%" stop-color="#000" />
+      <stop offset="60%" stop-color="#fff" />
+      <stop offset="80%" stop-color="#fff" />
+      <stop offset="80%" stop-color="#000" />
+    </linearGradient>
+    <g :fill="fillColor">
       <component :is="currentFigure"></component>
     </g>
   </svg>
@@ -23,7 +33,7 @@ import ShapeCircle from '@/components/shapes/ShapeCircle'
 import ShapeTriangle from '@/components/shapes/ShapeTriangle'
 import ShapeHexagedron from '@/components/shapes/ShapeHexagedron'
 export default {
-  props: ['figure'],
+  props: ['figure', 'figures'],
   data() {
     return {
       dragging: false,
@@ -46,6 +56,9 @@ export default {
     currentFigure() {
       return `Shape${this.figure.shape}`
     },
+    fillColor() {
+      return this.figure.isActive ? 'url(#active)' : this.figure.color
+    },
   },
   methods: {
     grabFigure(e) {
@@ -60,6 +73,9 @@ export default {
 
       this.oldLeft = e.pageX
       this.oldTop = e.pageY
+
+      this.figures.forEach((figure) => (figure.isActive = false))
+      this.figure.isActive = true
 
       document.documentElement.addEventListener('mousemove', this.dragFigure)
       document.documentElement.addEventListener('mouseup', this.dropFigure)

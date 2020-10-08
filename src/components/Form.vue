@@ -75,6 +75,7 @@ export default {
         position: 'static',
         x: 0,
         y: 0,
+        isActive: false,
       })
       this.colors = this.colors.filter((color) => color !== this.currentColor)
       this.currentName = ''

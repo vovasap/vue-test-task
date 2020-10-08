@@ -1,7 +1,12 @@
 <template>
   <div id="app">
     <div class="field">
-      <Shape v-for="(figure, index) of figures" :key="index" :figure="figure"></Shape>
+      <Shape
+        v-for="(figure, index) of figures"
+        :key="index"
+        :figures="figures"
+        :figure="figure"
+      ></Shape>
     </div>
     <div class="data-container">
       <Form @addFigure="addFigure" :figures="figures" />
