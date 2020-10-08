@@ -62,6 +62,9 @@ export default {
       errorKinds: { name: false, color: false, shape: false },
     }
   },
+  created() {
+    this.colors.sort()
+  },
   methods: {
     createShape() {
       this.validateFormElements()
@@ -107,6 +110,9 @@ export default {
       return this.errors
     },
     removeFigure() {
+      const activeFigure = this.figures.find((figure) => figure.isActive)
+      this.colors.push(activeFigure.color)
+      this.colors.sort()
       this.$emit('removeFigure')
     },
   },
