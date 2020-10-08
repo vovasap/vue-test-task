@@ -9,7 +9,7 @@
       ></Shape>
     </div>
     <div class="data-container">
-      <Form @addFigure="addFigure" :figures="figures" />
+      <Form @addFigure="addFigure" :figures="figures" @removeFigure="removeFigure" />
       <FiguresList :figures="figures" />
     </div>
   </div>
@@ -30,6 +30,9 @@ export default {
   methods: {
     addFigure(figure) {
       this.figures.push(figure)
+    },
+    removeFigure() {
+      this.figures = this.figures.filter((figure) => !figure.isActive)
     },
   },
 }

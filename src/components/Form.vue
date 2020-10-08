@@ -25,7 +25,7 @@
     </div>
     <div class="buttons">
       <button type="submit">Add</button>
-      <button>Delete</button>
+      <button @click.prevent="removeFigure">Delete</button>
     </div>
   </form>
 </template>
@@ -105,6 +105,9 @@ export default {
         this.hasError = true
       }
       return this.errors
+    },
+    removeFigure() {
+      this.$emit('removeFigure')
     },
   },
 }
