@@ -6,11 +6,25 @@
         :key="index"
         :figures="figures"
         :figure="figure"
+        :currentFigure="currentFigure"
+        @changeCurrentFigure="changeCurrentFigure"
       ></Shape>
     </div>
     <div class="data-container">
-      <Form @addFigure="addFigure" :figures="figures" @removeFigure="removeFigure" />
-      <FiguresList :figures="figures" />
+      <Form
+        :figures="figures"
+        :colors="colors"
+        :currentFigure="currentFigure"
+        @addFigure="addFigure"
+        @addColor="addColor"
+        @removeFigure="removeFigure"
+        @updateCurrentFigureProps="updateCurrentFigureProps"
+      />
+      <FiguresList
+        :figures="figures"
+        :currentFigure="currentFigure"
+        @changeCurrentFigure="changeCurrentFigure"
+      />
     </div>
   </div>
 </template>
@@ -25,14 +39,68 @@ export default {
   data() {
     return {
       figures: [],
+      currentFigure: null,
+      colors: [
+        'Black',
+        'Gray',
+        'Silver',
+        'White',
+        'Fuchsia',
+        'Purple',
+        'Red',
+        'Maroon',
+        'Yellow',
+        'Olive',
+        'Lime',
+        'Green',
+        'Aqua',
+        'Teal',
+        'Blue',
+        'Navy',
+      ],
     }
+  },
+  created() {
+    document.documentElement.addEventListener('click', this.deactivateFigure)
+    this.colors.sort()
   },
   methods: {
     addFigure(figure) {
       this.figures.push(figure)
+      this.colors = this.colors.filter((color) => color !== figure.color)
     },
     removeFigure() {
       this.figures = this.figures.filter((figure) => !figure.isActive)
+    },
+    deactivateFigure(e) {
+      if (
+        e.target.className === 'data-container' ||
+        e.target.className === 'field' ||
+        e.target.id === 'app'
+      ) {
+        if (this.currentFigure) {
+          this.colors = this.colors.filter((color) => color !== this.currentFigure.color)
+          if (this.currentFigure.name.length === 0) {
+            this.currentFigure.name = this.currentFigure.color.toLowerCase()
+          }
+        }
+        this.figures.forEach((figure) => (figure.isActive = false))
+        this.currentFigure = null
+      }
+    },
+    changeCurrentFigure(figure) {
+      if (this.currentFigure) {
+        this.colors = this.colors.filter((color) => color !== this.currentFigure.color)
+      }
+      this.currentFigure = figure
+      this.addColor(this.currentFigure.color)
+    },
+    updateCurrentFigureProps(prop, value) {
+      this.currentFigure[prop] = value
+    },
+    addColor(color) {
+      this.colors.push(color)
+      this.colors.sort()
     },
   },
 }

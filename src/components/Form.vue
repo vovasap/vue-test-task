@@ -3,16 +3,16 @@
     <input
       :class="{ 'form-warning': errorKinds.name }"
       type="text"
-      v-model="currentName"
+      v-model="computedCurrentName"
       placeholder="name"
     />
-    <select :class="{ 'form-warning': errorKinds.color }" v-model="currentColor">
+    <select :class="{ 'form-warning': errorKinds.color }" v-model="computedCurrentColor">
       <option disabled value="">Select a color</option>
       <option v-for="(color, index) in colors" :key="index">
         {{ color }}
       </option>
     </select>
-    <select :class="{ 'form-warning': errorKinds.shape }" v-model="currentShape">
+    <select :class="{ 'form-warning': errorKinds.shape }" v-model="computedCurrentShape">
       <option disabled value="">Select a shape</option>
       <option v-for="(shape, index) in shapes" :key="index">
         {{ shape }}
@@ -32,38 +32,75 @@
 
 <script>
 export default {
-  props: ['figures'],
+  props: ['colors', 'figures', 'currentFigure'],
   data() {
     return {
       hasError: false,
       currentName: '',
       currentColor: '',
       currentShape: '',
-      colors: [
-        'Black',
-        'Gray',
-        'Silver',
-        'White',
-        'Fuchsia',
-        'Purple',
-        'Red',
-        'Maroon',
-        'Yellow',
-        'Olive',
-        'Lime',
-        'Green',
-        'Aqua',
-        'Teal',
-        'Blue',
-        'Navy',
-      ],
       shapes: ['Square', 'Circle', 'Triangle', 'Hexagedron'],
       errors: [],
       errorKinds: { name: false, color: false, shape: false },
     }
   },
-  created() {
-    this.colors.sort()
+  computed: {
+    computedCurrentName: {
+      get() {
+        if (this.currentFigure) {
+          return this.currentFigure.name
+        } else {
+          return this.currentName
+        }
+      },
+      set(value) {
+        if (this.currentFigure) {
+          this.$emit('updateCurrentFigureProps', 'name', value)
+        } else {
+          this.currentName = value
+        }
+      },
+    },
+    computedCurrentColor: {
+      get() {
+        if (this.currentFigure) {
+          return this.currentFigure.color
+        } else {
+          if (this.colors.find((color) => color === this.currentColor)) {
+            return this.currentColor
+          } else {
+            return ''
+          }
+        }
+      },
+      set(value) {
+        if (this.currentFigure) {
+          this.$emit('updateCurrentFigureProps', 'color', value)
+          this.currentColor = value
+        } else {
+          if (value) {
+            this.currentColor = value
+          }
+        }
+      },
+    },
+    computedCurrentShape: {
+      get() {
+        if (this.currentFigure) {
+          return this.currentFigure.shape
+        } else {
+          return this.currentShape
+        }
+      },
+      set(value) {
+        if (this.currentFigure) {
+          this.$emit('updateCurrentFigureProps', 'shape', value)
+          this.currentShape = value
+        } else {
+          this.currentShape = value
+        }
+      },
+    },
   },
   methods: {
     createShape() {
@@ -80,7 +117,6 @@ export default {
         y: 0,
         isActive: false,
       })
-      this.colors = this.colors.filter((color) => color !== this.currentColor)
       this.currentName = ''
       this.currentColor = ''
       this.currentShape = ''
@@ -111,8 +147,7 @@ export default {
     },
     removeFigure() {
       const activeFigure = this.figures.find((figure) => figure.isActive)
-      this.colors.push(activeFigure.color)
-      this.colors.sort()
+      this.$emit('addColor', activeFigure.color)
       this.$emit('removeFigure')
     },
   },

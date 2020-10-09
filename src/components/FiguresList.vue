@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  props: ['figures'],
+  props: ['figures', 'currentFigure'],
   methods: {
     toggleActive(e) {
       const nameSelectedFigure = e.target.parentNode.id
@@ -35,6 +35,7 @@ export default {
           figure.isActive = false
         } else {
           figure.isActive = true
+          this.$emit('changeCurrentFigure', figure)
         }
       })
     },

@@ -22,7 +22,7 @@
       <stop offset="80%" stop-color="#000" />
     </linearGradient>
     <g :fill="fillColor">
-      <component :is="currentFigure"></component>
+      <component :is="currentShape"></component>
     </g>
   </svg>
 </template>
@@ -33,7 +33,7 @@ import ShapeCircle from '@/components/shapes/ShapeCircle'
 import ShapeTriangle from '@/components/shapes/ShapeTriangle'
 import ShapeHexagedron from '@/components/shapes/ShapeHexagedron'
 export default {
-  props: ['figure', 'figures'],
+  props: ['figure', 'figures', 'currentFigure'],
   data() {
     return {
       dragging: false,
@@ -53,7 +53,7 @@ export default {
     }
   },
   computed: {
-    currentFigure() {
+    currentShape() {
       return `Shape${this.figure.shape}`
     },
     fillColor() {
@@ -76,6 +76,7 @@ export default {
 
       this.figures.forEach((figure) => (figure.isActive = false))
       this.figure.isActive = true
+      this.$emit('changeCurrentFigure', this.figure)
 
       document.documentElement.addEventListener('mousemove', this.dragFigure)
       document.documentElement.addEventListener('mouseup', this.dropFigure)
