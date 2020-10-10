@@ -3,16 +3,16 @@
     <input
       :class="{ 'form-warning': errorKinds.name }"
       type="text"
-      v-model="computedCurrentName"
+      v-model="currentName"
       placeholder="name"
     />
-    <select :class="{ 'form-warning': errorKinds.color }" v-model="computedCurrentColor">
+    <select :class="{ 'form-warning': errorKinds.color }" v-model="currentColor">
       <option disabled value="">Select a color</option>
       <option v-for="(color, index) in colors" :key="index">
         {{ color }}
       </option>
     </select>
-    <select :class="{ 'form-warning': errorKinds.shape }" v-model="computedCurrentShape">
+    <select :class="{ 'form-warning': errorKinds.shape }" v-model="currentShape">
       <option disabled value="">Select a shape</option>
       <option v-for="(shape, index) in shapes" :key="index">
         {{ shape }}
@@ -36,38 +36,38 @@ export default {
   data() {
     return {
       hasError: false,
-      currentName: '',
-      currentColor: '',
-      currentShape: '',
+      name: '',
+      color: '',
+      shape: '',
       shapes: ['Square', 'Circle', 'Triangle', 'Hexagedron'],
       errors: [],
       errorKinds: { name: false, color: false, shape: false },
     }
   },
   computed: {
-    computedCurrentName: {
+    currentName: {
       get() {
         if (this.currentFigure) {
           return this.currentFigure.name
         } else {
-          return this.currentName
+          return this.name
         }
       },
       set(value) {
         if (this.currentFigure) {
           this.$emit('updateCurrentFigureProps', 'name', value)
         } else {
-          this.currentName = value
+          this.name = value
         }
       },
     },
-    computedCurrentColor: {
+    currentColor: {
       get() {
         if (this.currentFigure) {
           return this.currentFigure.color
         } else {
-          if (this.colors.find((color) => color === this.currentColor)) {
-            return this.currentColor
+          if (this.colors.find((color) => color === this.color)) {
+            return this.color
           } else {
             return ''
           }
@@ -76,28 +76,28 @@ export default {
       set(value) {
         if (this.currentFigure) {
           this.$emit('updateCurrentFigureProps', 'color', value)
-          this.currentColor = value
+          this.color = value
         } else {
           if (value) {
-            this.currentColor = value
+            this.color = value
           }
         }
       },
     },
-    computedCurrentShape: {
+    currentShape: {
       get() {
         if (this.currentFigure) {
           return this.currentFigure.shape
         } else {
-          return this.currentShape
+          return this.shape
         }
       },
       set(value) {
         if (this.currentFigure) {
           this.$emit('updateCurrentFigureProps', 'shape', value)
-          this.currentShape = value
+          this.shape = value
         } else {
-          this.currentShape = value
+          this.shape = value
         }
       },
     },
@@ -109,34 +109,34 @@ export default {
         return
       }
       this.$emit('addFigure', {
-        name: this.currentName,
-        color: this.currentColor,
-        shape: this.currentShape,
+        name: this.name,
+        color: this.color,
+        shape: this.shape,
         position: 'static',
         x: 0,
         y: 0,
         isActive: false,
       })
-      this.currentName = ''
-      this.currentColor = ''
-      this.currentShape = ''
+      this.name = ''
+      this.color = ''
+      this.shape = ''
       this.isExistingName = false
     },
     validateFormElements() {
       this.errors = []
       this.errorKinds = {}
       if (
-        !this.currentName.trim() ||
-        this.figures.findIndex((figure) => figure.name == this.currentName.trim()) >= 0
+        !this.name.trim() ||
+        this.figures.findIndex((figure) => figure.name == this.name.trim()) >= 0
       ) {
         this.errors.push('Pick another name')
         this.errorKinds.name = true
       }
-      if (!this.currentColor) {
+      if (!this.color) {
         this.errors.push('Select a color')
         this.errorKinds.color = true
       }
-      if (!this.currentShape) {
+      if (!this.shape) {
         this.errors.push('Select a shape')
         this.errorKinds.shape = true
       }
