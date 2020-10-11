@@ -84,6 +84,11 @@ export default {
         e.target.id === 'app'
       ) {
         if (this.currentFigure) {
+          this.figures.forEach((figure) => {
+            if (figure.name === this.currentFigure.name && figure.id !== this.currentFigure.id) {
+              this.currentFigure.name = this.currentFigure.color
+            }
+          })
           this.colors = this.colors.filter((color) => color !== this.currentFigure.color)
           if (this.currentFigure.name.length === 0) {
             this.currentFigure.name = this.currentFigure.color.toLowerCase()

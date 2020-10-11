@@ -102,6 +102,7 @@ export default {
       set(value) {
         if (this.currentFigure) {
           this.$emit('updateCurrentFigureProps', 'shape', value)
+          this.$emit('updateCurrentFigureProps', 'cornersStrength', this.shapes.indexOf(value))
           this.shape = value
         } else {
           this.shape = value
