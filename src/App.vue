@@ -8,6 +8,7 @@
         :figure="figure"
         :currentFigure="currentFigure"
         @changeCurrentFigure="changeCurrentFigure"
+        @removeFigure="removeFigure"
       ></Shape>
     </div>
     <div class="data-container">
@@ -69,8 +70,12 @@ export default {
       this.figures.push(figure)
       this.colors = this.colors.filter((color) => color !== figure.color)
     },
-    removeFigure() {
-      this.figures = this.figures.filter((figure) => !figure.isActive)
+    removeFigure(id) {
+      if (id) {
+        this.figures = this.figures.filter((figure) => figure.id !== id)
+      } else {
+        this.figures = this.figures.filter((figure) => !figure.isActive)
+      }
     },
     deactivateFigure(e) {
       if (

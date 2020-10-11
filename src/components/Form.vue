@@ -39,9 +39,16 @@ export default {
       name: '',
       color: '',
       shape: '',
-      shapes: ['Square', 'Circle', 'Triangle', 'Hexagedron'],
+      shapes: ['Circle', 'Triangle', 'Square', 'Hexagedron'],
       errors: [],
       errorKinds: { name: false, color: false, shape: false },
+      position: '',
+      zIndex: 0,
+      x: 0,
+      y: 0,
+      isActive: false,
+      id: '',
+      cornersStrength: 0,
     }
   },
   computed: {
@@ -112,15 +119,17 @@ export default {
         name: this.name,
         color: this.color,
         shape: this.shape,
-        position: 'static',
+        position: 'absolute',
+        zIndex: 0,
         x: 0,
         y: 0,
         isActive: false,
+        id: 'f' + new Date().getTime(),
+        cornersStrength: this.shapes.indexOf(this.shape),
       })
       this.name = ''
       this.color = ''
       this.shape = ''
-      this.isExistingName = false
     },
     validateFormElements() {
       this.errors = []
@@ -147,8 +156,10 @@ export default {
     },
     removeFigure() {
       const activeFigure = this.figures.find((figure) => figure.isActive)
-      this.$emit('addColor', activeFigure.color)
-      this.$emit('removeFigure')
+      if (activeFigure) {
+        this.$emit('addColor', activeFigure.color)
+        this.$emit('removeFigure')
+      }
     },
   },
 }

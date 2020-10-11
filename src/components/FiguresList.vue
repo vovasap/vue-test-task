@@ -30,10 +30,13 @@ export default {
   methods: {
     toggleActive(e) {
       const nameSelectedFigure = e.target.parentNode.id
+
       this.figures.forEach((figure) => {
         if (figure.name !== nameSelectedFigure) {
+          figure.zIndex = 0
           figure.isActive = false
         } else {
+          figure.zIndex = 1
           figure.isActive = true
           this.$emit('changeCurrentFigure', figure)
         }

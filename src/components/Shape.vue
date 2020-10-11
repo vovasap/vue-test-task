@@ -8,6 +8,7 @@
       position: figure.position,
       top: figure.y + 'px',
       left: figure.x + 'px',
+      zIndex: figure.zIndex,
     }"
     @mousedown="grabFigure"
   >
@@ -22,7 +23,7 @@
       <stop offset="80%" stop-color="#000" />
     </linearGradient>
     <g :fill="fillColor">
-      <component :is="currentShape"></component>
+      <component :is="currentShape" :id="figure.id"></component>
     </g>
   </svg>
 </template>
@@ -44,6 +45,7 @@ export default {
       maxW: null,
       maxH: null,
       enableNativeDrag: false,
+      currentElement: null,
     }
   },
   components: { ShapeSquare, ShapeCircle, ShapeTriangle, ShapeHexagedron },
@@ -62,8 +64,8 @@ export default {
   },
   methods: {
     grabFigure(e) {
+      this.currentElement = e.target.closest('svg')
       this.dragging = true
-      this.figure.position = 'absolute'
       const { top, left, bottom, right } = this.$el.parentNode.getBoundingClientRect()
 
       this.minW = left
@@ -74,8 +76,12 @@ export default {
       this.oldLeft = e.pageX
       this.oldTop = e.pageY
 
-      this.figures.forEach((figure) => (figure.isActive = false))
+      this.figures.forEach((figure) => {
+        figure.isActive = false
+        figure.zIndex = 0
+      })
       this.figure.isActive = true
+      this.figure.zIndex = 1
       this.$emit('changeCurrentFigure', this.figure)
 
       document.documentElement.addEventListener('mousemove', this.dragFigure)
@@ -89,6 +95,26 @@ export default {
         const maxBottomBound = this.maxH - this.minH - 52
         this.figure.x = this.restrictToBounds(newFigurePositionX, 0, maxLeftBound)
         this.figure.y = this.restrictToBounds(newFigurePositionY, 0, maxBottomBound)
+
+        this.currentElement.style.visibility = 'hidden'
+        let elementBelow = document.elementFromPoint(
+          newFigurePositionX + this.minW + 25,
+          newFigurePositionY + this.minH + 25
+        )
+        if (
+          elementBelow.hasAttribute('data-cornersStrength') &&
+          elementBelow.getAttribute('data-cornersStrength') < this.figure.cornersStrength
+        ) {
+          document.documentElement.dispatchEvent(new Event('mouseup'))
+          this.$emit('removeFigure', elementBelow.id)
+        } else if (
+          elementBelow.hasAttribute('data-cornersStrength') &&
+          elementBelow.getAttribute('data-cornersStrength') > this.figure.cornersStrength
+        ) {
+          document.documentElement.dispatchEvent(new Event('mouseup'))
+          this.$emit('removeFigure', this.figure.id)
+        }
+        this.currentElement.style.visibility = 'visible'
       }
       this.oldLeft = e.pageX
       this.oldTop = e.pageY
