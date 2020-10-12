@@ -96,28 +96,30 @@ export default {
         this.figure.x = this.restrictToBounds(newFigurePositionX, 0, maxLeftBound)
         this.figure.y = this.restrictToBounds(newFigurePositionY, 0, maxBottomBound)
 
-        this.currentElement.style.visibility = 'hidden'
-        let elementBelow = document.elementFromPoint(
-          newFigurePositionX + this.minW + 25,
-          newFigurePositionY + this.minH + 25
-        )
-        if (
-          elementBelow.hasAttribute('data-cornersStrength') &&
-          elementBelow.getAttribute('data-cornersStrength') < this.figure.cornersStrength
-        ) {
-          document.documentElement.dispatchEvent(new Event('mouseup'))
-          this.$emit('removeFigure', elementBelow.id)
-        } else if (
-          elementBelow.hasAttribute('data-cornersStrength') &&
-          elementBelow.getAttribute('data-cornersStrength') > this.figure.cornersStrength
-        ) {
-          document.documentElement.dispatchEvent(new Event('mouseup'))
-          this.$emit('removeFigure', this.figure.id)
-        }
-        this.currentElement.style.visibility = 'visible'
+        const centerFigurePositionX = newFigurePositionX + this.minW + 25
+        const centerFigurePositionY = newFigurePositionY + this.minH + 25
+        this.getResultColllision(centerFigurePositionX, centerFigurePositionY)
       }
       this.oldLeft = e.pageX
       this.oldTop = e.pageY
+    },
+    getResultColllision(positionX, positionY) {
+      this.currentElement.style.visibility = 'hidden'
+      let elementBelow = document.elementFromPoint(positionX, positionY)
+      if (
+        elementBelow.hasAttribute('data-cornersStrength') &&
+        elementBelow.getAttribute('data-cornersStrength') < this.figure.cornersStrength
+      ) {
+        document.documentElement.dispatchEvent(new Event('mouseup'))
+        this.$emit('removeFigure', elementBelow.id)
+      } else if (
+        elementBelow.hasAttribute('data-cornersStrength') &&
+        elementBelow.getAttribute('data-cornersStrength') > this.figure.cornersStrength
+      ) {
+        document.documentElement.dispatchEvent(new Event('mouseup'))
+        this.$emit('removeFigure', this.figure.id)
+      }
+      this.currentElement.style.visibility = 'visible'
     },
     dropFigure() {
       this.dragging = false

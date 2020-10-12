@@ -18,8 +18,8 @@
       <td>{{ figure.name }}</td>
       <td>{{ figure.color }}</td>
       <td>{{ figure.shape }}</td>
-      <td>{{ figure.x }}</td>
-      <td>{{ figure.y }}</td>
+      <td>{{ figure.x + 25 }}</td>
+      <td>{{ figure.y + 25 }}</td>
     </tr>
   </table>
 </template>

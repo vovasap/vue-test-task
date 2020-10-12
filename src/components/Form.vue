@@ -116,14 +116,15 @@ export default {
       if (this.errors.length) {
         return
       }
+      const [startX, startY] = this.getCoordsStartingFigure()
       this.$emit('addFigure', {
         name: this.name,
         color: this.color,
         shape: this.shape,
         position: 'absolute',
         zIndex: 0,
-        x: 0,
-        y: 0,
+        x: startX,
+        y: startY,
         isActive: false,
         id: 'f' + new Date().getTime(),
         cornersStrength: this.shapes.indexOf(this.shape),
@@ -131,6 +132,14 @@ export default {
       this.name = ''
       this.color = ''
       this.shape = ''
+    },
+    getCoordsStartingFigure() {
+      const columnNum = this.figures.length < 8 ? 0 : 1
+      const coordX = columnNum * 50
+      const rowNum = this.figures.length % 7
+      const coordY = rowNum * 50
+
+      return [coordX, coordY]
     },
     validateFormElements() {
       this.errors = []
@@ -156,9 +165,11 @@ export default {
       return this.errors
     },
     removeFigure() {
+      this.currentName = ''
+      this.currentColor = ''
+      this.currentShape = ''
       const activeFigure = this.figures.find((figure) => figure.isActive)
       if (activeFigure) {
-        this.$emit('addColor', activeFigure.color)
         this.$emit('removeFigure')
       }
     },
